@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.suraj.blog_api.surajblogapi.Entities.User;
 import com.suraj.blog_api.surajblogapi.Exceptions.ResourceNotFoundException;
@@ -11,6 +12,7 @@ import com.suraj.blog_api.surajblogapi.Payloads.UserDto;
 import com.suraj.blog_api.surajblogapi.Repository.UserRepo;
 import com.suraj.blog_api.surajblogapi.Services.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -26,41 +28,41 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto udateUser(UserDto userDto, int user_id) {
-        //First Finding user
+        // First Finding user
         User user = userRepo.findById(user_id)
-        .orElseThrow(()-> new ResourceNotFoundException("User", "id", user_id));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setAbout(userDto.getAbout());
         user.setPassword(userDto.getPassword());
-       User updatedUser= userRepo.save(user);
+        User updatedUser = userRepo.save(user);
         return this.userToDto(updatedUser);
     }
 
     @Override
     public UserDto getUserById(int user_id) {
         User user = userRepo.findById(user_id)
-        .orElseThrow(()-> new ResourceNotFoundException("User", "id", user_id));
-        return this.userToDto(user);  
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
+        return this.userToDto(user);
     }
 
     @Override
     public List<UserDto> getAllUser() {
-        List<User> list=this.userRepo.findAll();
-       List<UserDto> userDtos= list.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
-       return userDtos;
+        List<User> list = this.userRepo.findAll();
+        List<UserDto> userDtos = list.stream().map(user -> this.userToDto(user)).collect(Collectors.toList());
+        return userDtos;
 
     }
 
     @Override
     public void deleteByID(int id) {
-       User user = userRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("user", "id", id));
+        User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
         userRepo.delete(user);
     }
 
     @Override
     public void deleteAllUser() {
-       userRepo.deleteAll();
+        userRepo.deleteAll();
     }
 
     private User dtoToUser(UserDto userDto) {

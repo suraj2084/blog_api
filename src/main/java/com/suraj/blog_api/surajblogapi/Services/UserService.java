@@ -9,7 +9,7 @@ public interface UserService {
 
     UserDto createUser(UserDto userDto);
 
-    UserDto udateUser(UserDto userDto, int user_id);
+    UserDto updateUser(UserDto userDto, int user_id);
 
     UserDto getUserById(int id);
 
