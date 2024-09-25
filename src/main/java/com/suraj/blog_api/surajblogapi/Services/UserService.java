@@ -1,22 +1,24 @@
 package com.suraj.blog_api.surajblogapi.Services;
 
 import org.springframework.stereotype.Service;
+
+import com.suraj.blog_api.surajblogapi.Payloads.ApiResponse;
 import com.suraj.blog_api.surajblogapi.Payloads.UserDto;
-import java.util.List;
+import java.util.*;
 
 @Service
 public interface UserService {
 
-    UserDto createUser(UserDto userDto);
+    ApiResponse createUser(UserDto userDto);
 
-    UserDto updateUser(UserDto userDto, int user_id);
+    ApiResponse updateUser(UserDto userDto, int user_id);
 
     UserDto getUserById(int id);
 
     List<UserDto> getAllUser();
 
-    void deleteByID(int id);
+    ApiResponse deleteByID(int id);
 
-    void deleteAllUser();
+    ApiResponse deleteAllUser();
 
 }

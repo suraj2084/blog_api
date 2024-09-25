@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.suraj.blog_api.surajblogapi.Entities.User;
 import com.suraj.blog_api.surajblogapi.Exceptions.ResourceNotFoundException;
+import com.suraj.blog_api.surajblogapi.Payloads.ApiResponse;
 import com.suraj.blog_api.surajblogapi.Payloads.UserDto;
 import com.suraj.blog_api.surajblogapi.Repository.UserRepo;
 import com.suraj.blog_api.surajblogapi.Services.UserService;
@@ -19,15 +20,15 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
 
     @Override
-    public UserDto createUser(UserDto userDto) {
+    public ApiResponse createUser(UserDto userDto) {
 
         User user = this.dtoToUser(userDto);
-        User savedUser = userRepo.save(user);
-        return this.userToDto(savedUser);
+        userRepo.save(user);
+        return new ApiResponse("User Created successfully", true);
     }
 
     @Override
-    public UserDto udateUser(UserDto userDto, int user_id) {
+    public ApiResponse updateUser(UserDto userDto, int user_id) {
         // First Finding user
         User user = userRepo.findById(user_id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
@@ -35,8 +36,8 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setAbout(userDto.getAbout());
         user.setPassword(userDto.getPassword());
-        User updatedUser = userRepo.save(user);
-        return this.userToDto(updatedUser);
+        userRepo.save(user);
+        return new ApiResponse("User Updated successfully", true);
     }
 
     @Override
@@ -55,14 +56,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByID(int id) {
+    public ApiResponse deleteByID(int id) {
         User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
         userRepo.delete(user);
+
+        return new ApiResponse("User deleted successfully", true);
+
     }
 
     @Override
-    public void deleteAllUser() {
+    public ApiResponse deleteAllUser() {
         userRepo.deleteAll();
+        return new ApiResponse("Users deleted successfully", true);
     }
 
     private User dtoToUser(UserDto userDto) {

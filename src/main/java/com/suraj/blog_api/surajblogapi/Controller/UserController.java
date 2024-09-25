@@ -1,5 +1,8 @@
 package com.suraj.blog_api.surajblogapi.Controller;
 
+import java.util.List;
+
+import org.aspectj.internal.lang.annotation.ajcPrivileged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.suraj.blog_api.surajblogapi.Payloads.ApiResponse;
 import com.suraj.blog_api.surajblogapi.Payloads.UserDto;
 import com.suraj.blog_api.surajblogapi.Services.UserService;
 
@@ -25,15 +30,15 @@ public class UserController {
 
     // Post Create usser
     @PostMapping("/")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        UserDto creaUserDto = userService.createUser(userDto);
-        return new ResponseEntity<>(creaUserDto, HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse> createUser(@RequestBody UserDto userDto) {
+        ApiResponse apiResponse = userService.createUser(userDto);
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     // PUT Update User
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("userId") int userId, @RequestBody UserDto userDto) {
-        UserDto updatedUserDto = userService.updateUser(userDto, userId);
+    public ResponseEntity<ApiResponse> updateUser(@PathVariable("userId") int userId, @RequestBody UserDto userDto) {
+        ApiResponse updatedUserDto = userService.updateUser(userDto, userId);
         return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
     }
 
@@ -44,10 +49,34 @@ public class UserController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
+    // GET Fetch User
+    @GetMapping("/")
+    public ResponseEntity<List<UserDto>> getAllUser() {
+        List<UserDto> userDto = userService.getAllUser();
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
     // DELETE Delete a user
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable("userId") int userId) {
-        userService.deleteByID(userId);
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") int userId) {
+        ApiResponse apiResponse = userService.deleteByID(userId);
+        if (apiResponse.isSuccess()) {
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    // DELETE Delete a user
+    @DeleteMapping("/")
+    public ResponseEntity<ApiResponse> deleteall() {
+        ApiResponse apiResponse = userService.deleteAllUser();
+        if (apiResponse.isSuccess()) {
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
 
     }
 
