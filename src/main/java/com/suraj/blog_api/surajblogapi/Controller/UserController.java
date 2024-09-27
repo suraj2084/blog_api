@@ -1,8 +1,6 @@
 package com.suraj.blog_api.surajblogapi.Controller;
 
 import java.util.List;
-
-import org.aspectj.internal.lang.annotation.ajcPrivileged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +17,11 @@ import com.suraj.blog_api.surajblogapi.Payloads.ApiResponse;
 import com.suraj.blog_api.surajblogapi.Payloads.UserDto;
 import com.suraj.blog_api.surajblogapi.Services.UserService;
 
+import jakarta.validation.Valid;
+
 //For Api declare @RestController
 @RestController()
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
     /* Now we will use a UserServices method. */
@@ -30,14 +30,15 @@ public class UserController {
 
     // Post Create usser
     @PostMapping("/")
-    public ResponseEntity<ApiResponse> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<ApiResponse> createUser(@Valid @RequestBody UserDto userDto) {
         ApiResponse apiResponse = userService.createUser(userDto);
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     // PUT Update User
     @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse> updateUser(@PathVariable("userId") int userId, @RequestBody UserDto userDto) {
+    public ResponseEntity<ApiResponse> updateUser(@Valid @PathVariable("userId") int userId,
+            @RequestBody UserDto userDto) {
         ApiResponse updatedUserDto = userService.updateUser(userDto, userId);
         return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
     }

@@ -21,10 +21,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @Column(name = "name", length = 100, nullable = false)
+    @Column(name = "name", length = 100)
+
     private String name;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String email;
 
     private String Password;

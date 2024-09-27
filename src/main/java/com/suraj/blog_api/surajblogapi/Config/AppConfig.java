@@ -1,5 +1,6 @@
 package com.suraj.blog_api.surajblogapi.Config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,5 +12,10 @@ public class AppConfig {
     @Bean
     public UserService userService() {
         return new UserServiceImpl();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

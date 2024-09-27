@@ -3,6 +3,7 @@ package com.suraj.blog_api.surajblogapi.Services.UserServiceImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Override
     public ApiResponse createUser(UserDto userDto) {
 
-        User user = this.dtoToUser(userDto);
+        // User user = this.dtoToUser(userDto);
+        User user = modelMapper.map(userDto, User.class);
         userRepo.save(user);
         return new ApiResponse("User Created successfully", true);
     }
@@ -44,13 +49,15 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserById(int user_id) {
         User user = userRepo.findById(user_id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
-        return this.userToDto(user);
+        // return this.userToDto(user);
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
     public List<UserDto> getAllUser() {
         List<User> list = this.userRepo.findAll();
-        List<UserDto> userDtos = list.stream().map(user -> this.userToDto(user)).collect(Collectors.toList());
+        List<UserDto> userDtos = list.stream().map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
         return userDtos;
 
     }
@@ -68,24 +75,6 @@ public class UserServiceImpl implements UserService {
     public ApiResponse deleteAllUser() {
         userRepo.deleteAll();
         return new ApiResponse("Users deleted successfully", true);
-    }
-
-    private User dtoToUser(UserDto userDto) {
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setAbout(userDto.getAbout());
-        return user;
-    }
-
-    private UserDto userToDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setAbout(user.getAbout());
-        return userDto;
     }
 
 }
