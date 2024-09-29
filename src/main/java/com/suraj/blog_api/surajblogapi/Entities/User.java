@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -36,8 +36,12 @@ public class User {
 
     private String about;
 
-    // One user can have many categories
+    // // One user can have many categories
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch =
+    // FetchType.LAZY)
+    // private List<Category> categories;
+    // One user can have many posts
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Category> categories;
+    private List<Post> posts = new ArrayList<>();
 
 }
