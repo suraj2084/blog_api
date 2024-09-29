@@ -4,7 +4,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.suraj.blog_api.surajblogapi.Services.CategoryService;
 import com.suraj.blog_api.surajblogapi.Services.UserService;
+import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.CategoryServiceImpl;
 import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.UserServiceImpl;
 
 @Configuration
@@ -18,4 +20,10 @@ public class AppConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
+    @Bean
+    public CategoryService categoryService() {
+        return new CategoryServiceImpl();
+    }
+
 }

@@ -52,8 +52,12 @@ public class UserController {
 
     // GET Fetch User
     @GetMapping("/")
-    public ResponseEntity<List<UserDto>> getAllUser() {
+    public ResponseEntity<?> getAllUser() {
         List<UserDto> userDto = userService.getAllUser();
+        // return new ResponseEntity<>(userDto, HttpStatus.OK);
+        if (userDto.isEmpty()) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse("No Data Available", false), HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
