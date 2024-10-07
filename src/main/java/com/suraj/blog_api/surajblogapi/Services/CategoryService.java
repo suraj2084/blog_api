@@ -11,13 +11,13 @@ public interface CategoryService {
 
     ApiResponse createCategory(CategoryDto categoryDto);
 
-    ApiResponse updateCategory(CategoryDto categoryDto, int id);
+    ApiResponse updateCategory(CategoryDto categoryDto, Integer id);
 
-    ApiResponse deleteCategory(int id);
+    ApiResponse deleteCategory(Integer id);
 
     ApiResponse DeleteAllCategory();
 
-    CategoryDto getCategoryById(int id);
+    CategoryDto getCategoryById(Integer id);
 
     List<CategoryDto> getAllCategory();
 }

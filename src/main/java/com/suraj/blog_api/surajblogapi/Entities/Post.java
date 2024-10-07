@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 
-;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Getter
@@ -20,16 +21,19 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int p_id;
+    private Integer p_id;
 
     private String p_title;
     private String p_imageUrl;
-    private String Content;
-    // private Date date;
+    private String p_Content;
+    private Date addDate;
 
     @ManyToOne
+    // @JoinColumn(name = "category_id")
+    @JsonManagedReference
     private Category category;
 
     @ManyToOne
+    @JsonManagedReference
     private User user;
 }

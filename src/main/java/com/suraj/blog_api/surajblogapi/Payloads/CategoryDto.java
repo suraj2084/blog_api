@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CategoryDto {
 
-    private long c_id;
+    private Integer c_id;
 
     @NotEmpty(message = "Category title must not be empty.")
     @Size(min = 3, max = 7, message = "Category Title min = 3 and max = 7 Char.")

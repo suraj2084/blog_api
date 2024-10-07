@@ -11,13 +11,13 @@ public interface UserService {
 
     ApiResponse createUser(UserDto userDto);
 
-    ApiResponse updateUser(UserDto userDto, int user_id);
+    ApiResponse updateUser(UserDto userDto, Integer user_id);
 
-    UserDto getUserById(int id);
+    UserDto getUserById(Integer id);
 
     List<UserDto> getAllUser();
 
-    ApiResponse deleteByID(int id);
+    ApiResponse deleteByID(Integer id);
 
     ApiResponse deleteAllUser();
 

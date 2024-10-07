@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ApiResponse updateUser(UserDto userDto, int user_id) {
+    public ApiResponse updateUser(UserDto userDto, Integer user_id) {
         // First Finding user
         User user = userRepo.findById(user_id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(int user_id) {
+    public UserDto getUserById(Integer user_id) {
         User user = userRepo.findById(user_id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
         // return this.userToDto(user);
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ApiResponse deleteByID(int id) {
+    public ApiResponse deleteByID(Integer id) {
         User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
         userRepo.delete(user);
 

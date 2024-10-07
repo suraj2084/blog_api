@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserDto {
 
-    private long id;
+    private Integer id;
 
     @NotEmpty(message = "Name must not be Empty")
     @Size(min = 4, message = "Username must be of 4 Character.")

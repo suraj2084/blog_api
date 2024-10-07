@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ApiResponse updateCategory(CategoryDto categoryDto, int id) {
+    public ApiResponse updateCategory(CategoryDto categoryDto, Integer id) {
         // First Finding category
         Category category = categoryRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ApiResponse deleteCategory(int id) {
+    public ApiResponse deleteCategory(Integer id) {
         Category category = categoryRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
         categoryRepo.delete(category);
@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto getCategoryById(int id) {
+    public CategoryDto getCategoryById(Integer id) {
         Category category = categoryRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
         return modelMapper.map(category, CategoryDto.class);

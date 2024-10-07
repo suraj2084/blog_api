@@ -37,7 +37,7 @@ public class UserController {
 
     // PUT Update User
     @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse> updateUser(@Valid @PathVariable("userId") int userId,
+    public ResponseEntity<ApiResponse> updateUser(@Valid @PathVariable("userId") Integer userId,
             @RequestBody UserDto userDto) {
         ApiResponse updatedUserDto = userService.updateUser(userDto, userId);
         return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
@@ -45,7 +45,7 @@ public class UserController {
 
     // GET Fetch User
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> getUser(@PathVariable("userId") int userId) {
+    public ResponseEntity<UserDto> getUser(@PathVariable("userId") Integer userId) {
         UserDto userDto = userService.getUserById(userId);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
@@ -63,7 +63,7 @@ public class UserController {
 
     // DELETE Delete a user
     @DeleteMapping("/{userId}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") int userId) {
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer userId) {
         ApiResponse apiResponse = userService.deleteByID(userId);
         if (apiResponse.isSuccess()) {
             return new ResponseEntity<>(apiResponse, HttpStatus.OK);

@@ -33,7 +33,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> UpdateCategopry(@Valid @PathVariable("id") int id,
+    public ResponseEntity<ApiResponse> UpdateCategopry(@Valid @PathVariable("id") Integer id,
             @RequestBody CategoryDto categoryDto) {
         ApiResponse apiResponse = categoryService.updateCategory(categoryDto, id);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.CREATED);
@@ -50,13 +50,13 @@ public class CategoryController {
     }
 
     @GetMapping("/{c_id}")
-    public CategoryDto getMethodName(@Valid @PathVariable("c_id") int c_id) {
+    public CategoryDto getMethodName(@Valid @PathVariable("c_id") Integer c_id) {
         CategoryDto categoryDto = categoryService.getCategoryById(c_id);
         return categoryDto;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteByid(@PathVariable("id") int id) {
+    public ResponseEntity<ApiResponse> deleteByid(@PathVariable("id") Integer id) {
         ApiResponse apiResponse = categoryService.deleteCategory(id);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.ACCEPTED);
     }
