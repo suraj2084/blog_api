@@ -48,10 +48,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public ApiResponse updatePost(PostDto postDto, Integer post_id) {
         Post post = postRepo.findById(post_id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", post_id));
-        post.setP_Content(postDto.getContent());
-        post.setP_imageUrl(postDto.getImageUrl());
+        post.setContent(postDto.getContent());
+        post.setP_imageUrl(postDto.getP_imageUrl());
         post.setP_title(postDto.getP_title());
         post.setAddDate(new Date());
+        postRepo.save(post);
         return new ApiResponse("Post Updated Successfully", true);
     }
 
@@ -75,7 +76,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getPosts() {
+    public List<PostDto> getAllPosts() {
         List<Post> posts = postRepo.findAll();
         List<PostDto> postDtos = posts.stream().map(post -> modelMapper.map(post, PostDto.class))
                 .collect(Collectors.toList());
@@ -95,7 +96,11 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> getPostByCategory(Integer category_id) {
         Category category = categoryRepo.findById(category_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", category_id));
+        // System.out.println(category.getC_title());
+        // System.out.println(category.getC_description());
+        // System.out.println(category.getC_id());
         List<Post> posts = postRepo.findAllByCategory(category);
+
         List<PostDto> postDtos = posts.stream().map(post -> modelMapper.map(post, PostDto.class))
                 .collect(Collectors.toList());
         return postDtos;

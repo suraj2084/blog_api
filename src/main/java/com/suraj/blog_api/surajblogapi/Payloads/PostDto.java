@@ -24,11 +24,10 @@ public class PostDto {
     @NotBlank(message = "Post content should not be blank")
     private String Content;
 
-    private Date addedDate;
+    private Date addDate;
 
-    private String imageUrl;
+    private String p_imageUrl;
 
-    private Category category;
-
-    private User user;
+    private UserDto user;
+    private CategoryDto category;
 }

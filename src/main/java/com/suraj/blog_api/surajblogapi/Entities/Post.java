@@ -1,6 +1,7 @@
 package com.suraj.blog_api.surajblogapi.Entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -25,15 +25,14 @@ public class Post {
 
     private String p_title;
     private String p_imageUrl;
-    private String p_Content;
+    private String content;
     private Date addDate;
 
-    @ManyToOne
-    // @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
     private User user;
 }

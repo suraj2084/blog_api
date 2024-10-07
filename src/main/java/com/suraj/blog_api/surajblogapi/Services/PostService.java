@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public interface PostService {
     ApiResponse createPost(PostDto postDto, Integer user_id, Integer category_id);
 
-    ApiResponse updatePost(PostDto postDto, Integer post_id);
+    ApiResponse updatePost(PostDto entity, Integer post_id);
 
     ApiResponse deleteById(Integer post_id);
 
@@ -18,7 +18,7 @@ public interface PostService {
 
     PostDto getPostById(Integer post_id);
 
-    List<PostDto> getPosts();
+    List<PostDto> getAllPosts();
 
     List<PostDto> getPostByUser(Integer user_id);
 
