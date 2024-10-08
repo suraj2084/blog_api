@@ -25,5 +25,5 @@ public interface PostService {
 
     List<PostDto> getPostByCategory(Integer category_id);
 
-    List<PostDto> searchPosts(String Keyword);
+    PageResponse<PostDto> searchPostsByContent(String Keyword, Integer pageNo, Integer pageSize);
 }

@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.suraj.blog_api.surajblogapi.Services.CategoryService;
+import com.suraj.blog_api.surajblogapi.Services.FileService;
 import com.suraj.blog_api.surajblogapi.Services.PostService;
 import com.suraj.blog_api.surajblogapi.Services.UserService;
 import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.CategoryServiceImpl;
+import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.FileServiceImpl;
 import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.PostServiceImpl;
 import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.UserServiceImpl;
 
@@ -31,6 +33,11 @@ public class AppConfig {
     @Bean
     public PostService postService() {
         return new PostServiceImpl();
+    }
+
+    @Bean
+    public FileService filService() {
+        return new FileServiceImpl();
     }
 
 }

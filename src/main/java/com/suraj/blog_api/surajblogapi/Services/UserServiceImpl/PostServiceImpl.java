@@ -124,9 +124,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> searchPosts(String Keyword) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchPosts'");
+    public PageResponse<PostDto> searchPostsByContent(String Keyword, Integer pageNo, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageNo);
+        Page<Post> byContentContaining = postRepo.findByContentContaining(Keyword, pageable);
+        List<PostDto> posts = byContentContaining.stream().map(post -> modelMapper.map(post, PostDto.class))
+                .collect(Collectors.toList());
+        PageResponse<PostDto> pageResponse = new PageResponse<>();
+        pageResponse.setContent(posts);
+        pageResponse.setPageNumber(byContentContaining.getNumber());
+        pageResponse.setPageSize(byContentContaining.getSize());
+        pageResponse.setTotalElements(byContentContaining.getTotalElements());
+        pageResponse.setTotalPages(byContentContaining.getTotalPages());
+        pageResponse.setLastPage(byContentContaining.isLast());
+        return pageResponse;
     }
 
 }
