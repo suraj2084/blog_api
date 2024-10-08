@@ -11,11 +11,16 @@ import com.suraj.blog_api.surajblogapi.Entities.Category;
 import com.suraj.blog_api.surajblogapi.Entities.Post;
 import com.suraj.blog_api.surajblogapi.Exceptions.ResourceNotFoundException;
 import com.suraj.blog_api.surajblogapi.Payloads.ApiResponse;
+import com.suraj.blog_api.surajblogapi.Payloads.PageResponse;
 import com.suraj.blog_api.surajblogapi.Payloads.PostDto;
 import com.suraj.blog_api.surajblogapi.Repository.CategoryRepo;
 import com.suraj.blog_api.surajblogapi.Repository.PostRepo;
 import com.suraj.blog_api.surajblogapi.Repository.UserRepo;
 import com.suraj.blog_api.surajblogapi.Services.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 public class PostServiceImpl implements PostService {
 
@@ -76,11 +81,25 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPosts() {
-        List<Post> posts = postRepo.findAll();
+    public PageResponse<PostDto> getAllPosts(Integer pageNo, Integer pageSize, String sortby, String sortDir) {
+        // Determine sorting order
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortby).ascending() : Sort.by(sortby).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<Post> posts = postRepo.findAll(pageable);
+        if (posts.getContent().isEmpty()) {
+            throw new ResourceNotFoundException("Posts", "page number", pageNo);
+        }
         List<PostDto> postDtos = posts.stream().map(post -> modelMapper.map(post, PostDto.class))
                 .collect(Collectors.toList());
-        return postDtos;
+        PageResponse<PostDto> pageResponse = new PageResponse<PostDto>();
+        pageResponse.setContent(postDtos);
+        pageResponse.setPageNumber(posts.getNumber());
+        pageResponse.setPageSize(posts.getSize());
+        pageResponse.setTotalElements(posts.getTotalElements());
+        pageResponse.setTotalPages(posts.getTotalPages());
+        pageResponse.setLastPage(posts.isLast());
+
+        return pageResponse;
     }
 
     @Override
@@ -96,9 +115,7 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> getPostByCategory(Integer category_id) {
         Category category = categoryRepo.findById(category_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", category_id));
-        // System.out.println(category.getC_title());
-        // System.out.println(category.getC_description());
-        // System.out.println(category.getC_id());
+
         List<Post> posts = postRepo.findAllByCategory(category);
 
         List<PostDto> postDtos = posts.stream().map(post -> modelMapper.map(post, PostDto.class))

@@ -1,9 +1,6 @@
 package com.suraj.blog_api.surajblogapi.Payloads;
 
 import java.util.Date;
-import java.util.Locale.Category;
-
-import com.suraj.blog_api.surajblogapi.Entities.User;
 
 import jakarta.validation.constraints.NotBlank;
 

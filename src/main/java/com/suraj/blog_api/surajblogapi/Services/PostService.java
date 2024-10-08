@@ -1,6 +1,7 @@
 package com.suraj.blog_api.surajblogapi.Services;
 
 import com.suraj.blog_api.surajblogapi.Payloads.ApiResponse;
+import com.suraj.blog_api.surajblogapi.Payloads.PageResponse;
 import com.suraj.blog_api.surajblogapi.Payloads.PostDto;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface PostService {
 
     PostDto getPostById(Integer post_id);
 
-    List<PostDto> getAllPosts();
+    PageResponse<PostDto> getAllPosts(Integer pageNo, Integer PageSize, String sortby, String sortDir);
 
     List<PostDto> getPostByUser(Integer user_id);
 

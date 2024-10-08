@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suraj.blog_api.surajblogapi.Payloads.ApiResponse;
+import com.suraj.blog_api.surajblogapi.Payloads.PageResponse;
 import com.suraj.blog_api.surajblogapi.Payloads.PostDto;
 import com.suraj.blog_api.surajblogapi.Services.PostService;
 
@@ -35,11 +37,12 @@ public class PostConroller {
     }
 
     @GetMapping("posts/")
-    public ResponseEntity<?> getPosts() {
-        List<PostDto> postdtos = postService.getAllPosts();
-        if (postdtos.isEmpty()) {
-            return new ResponseEntity<ApiResponse>(new ApiResponse("No Data Available", false), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> getPosts(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "1") Integer pageSize,
+            @RequestParam(defaultValue = "pid") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+        PageResponse<PostDto> postdtos = postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
         return new ResponseEntity<>(postdtos, HttpStatus.OK);
     }
 

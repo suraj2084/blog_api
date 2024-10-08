@@ -1,8 +1,8 @@
 package com.suraj.blog_api.surajblogapi.Exceptions;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -28,17 +28,22 @@ public class GlobalExpectionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> MethodArgumentNotValidExceptionHandler(
             MethodArgumentNotValidException methodArgumentNotValidException) {
-        Map<String, String> resMap = new HashMap<>();
+        Map<String, String> resMap = new HashMap<String, String>();
         // String meString = methodArgumentNotValidException.getMessage();
         methodArgumentNotValidException.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldString = ((FieldError) error).getField();
             String messageString = error.getDefaultMessage();
             resMap.put(fieldString, messageString);
-        }
-
-        );
+        });
 
         return new ResponseEntity<Map<String, String>>(resMap, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ApiResponse> handlePropertyReferenceException(PropertyReferenceException ex) {
+        String errorMessage = "Invalid property reference: " + ex.getPropertyName();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, false);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
