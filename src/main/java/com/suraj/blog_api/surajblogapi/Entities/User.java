@@ -15,12 +15,16 @@ import lombok.Setter;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id
@@ -46,5 +50,11 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Post> posts = new ArrayList<>();
+
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch =
+    // FetchType.LAZY)
+    // @JsonBackReference(value = "user-comments") // Use JsonManagedReference on
+    // // the parent side
+    // private Set<Comment> comments = new HashSet();
 
 }

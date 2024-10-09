@@ -1,5 +1,8 @@
 package com.suraj.blog_api.surajblogapi.Payloads;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -29,4 +32,6 @@ public class UserDto {
     private String password;
     @Size(min = 3, max = 2000, message = "password must be min of 3 and max of 2000 Character.")
     private String about;
+
+    // private Set<CommentDto> commentDto = new HashSet<>();
 }

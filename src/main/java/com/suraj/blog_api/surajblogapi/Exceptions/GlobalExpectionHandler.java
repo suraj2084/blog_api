@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -44,6 +45,12 @@ public class GlobalExpectionHandler {
         String errorMessage = "Invalid property reference: " + ex.getPropertyName();
         ApiResponse apiResponse = new ApiResponse(errorMessage, false);
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ApiResponse> handleMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex) {
+        return new ResponseEntity<>(new ApiResponse("Media Type Not Supported", false),
+                HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
 }

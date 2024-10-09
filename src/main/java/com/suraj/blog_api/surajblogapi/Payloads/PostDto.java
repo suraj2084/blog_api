@@ -1,6 +1,8 @@
 package com.suraj.blog_api.surajblogapi.Payloads;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -27,4 +29,5 @@ public class PostDto {
 
     private UserDto user;
     private CategoryDto category;
+    // private Set<CommentDto> comment = new HashSet<>();
 }
