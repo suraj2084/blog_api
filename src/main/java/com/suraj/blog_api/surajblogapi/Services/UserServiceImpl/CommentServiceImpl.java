@@ -24,22 +24,22 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // @Autowired
-    // private UserRepo userRepo;
+    @Autowired
+    private UserRepo userRepo;
     @Autowired
     private PostRepo postRepo;
 
     @Override
     public ApiResponse createComment(CommentDto commentDto, Integer user_id, Integer post_id) {
-        // User user = userRepo.findById(user_id)
-        // .orElseThrow(() -> new ResourceNotFoundException("User", "Id", user_id));
+        User user = userRepo.findById(user_id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", user_id));
         Post post = postRepo.findById(post_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post", "Id", post_id));
         Comment comment = modelMapper.map(commentDto, Comment.class);
         comment.setCreatedDate(new Date());
         comment.setStatus("active");
         comment.setPost(post);
-        // comment.setUser(user);
+        comment.setUser(user);
         commentRepo.save(comment);
         return new ApiResponse("Comment Created Successfully", true);
     }

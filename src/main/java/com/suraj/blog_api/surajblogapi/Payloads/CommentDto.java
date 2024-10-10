@@ -5,9 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 
-import com.suraj.blog_api.surajblogapi.Entities.Post;
-import com.suraj.blog_api.surajblogapi.Entities.User;
-
 import jakarta.validation.constraints.NotBlank;
 
 @Getter
@@ -20,7 +17,7 @@ public class CommentDto {
     private String content;
     private Date currentDate;
     private String status;
-    private Post post;
-    // private User user;
+    private PostDto post;
+    // private UserDto user;
 
 }

@@ -25,7 +25,7 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @PostMapping("user/{user_id}/post/{post_Id}/comment")
+    @PostMapping("user/{user_id}/post/{post_id}/comment")
     public ResponseEntity<ApiResponse> createComment(@RequestBody CommentDto commentDto,
             @PathVariable("user_id") Integer user_id, @PathVariable("post_id") Integer post_id) {
         ApiResponse commentResponse = commentService.createComment(commentDto, user_id, post_id);

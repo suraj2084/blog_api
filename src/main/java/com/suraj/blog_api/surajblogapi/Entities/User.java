@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -41,20 +40,11 @@ public class User {
     private String Password;
 
     private String about;
-
-    // // One user can have many categories
-    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch =
-    // FetchType.LAZY)
-    // private List<Category> categories;
-    // One user can have many posts
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Post> posts = new ArrayList<>();
-
-    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch =
-    // FetchType.LAZY)
-    // @JsonBackReference(value = "user-comments") // Use JsonManagedReference on
-    // // the parent side
-    // private Set<Comment> comments = new HashSet();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference // Parent side of the relationship
+    private List<Comment> comments = new ArrayList<>();
 
 }

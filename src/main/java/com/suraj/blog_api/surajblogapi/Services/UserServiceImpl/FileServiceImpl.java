@@ -22,9 +22,9 @@ public class FileServiceImpl implements FileService {
         // ABC.png
 
         // Random Name Generate file
-        String randomId = UUID.randomUUID().toString();
+        String path1 = "image/" + UUID.randomUUID().toString(); // Generates a clean path
 
-        String fileName = randomId.concat(name.substring(name.lastIndexOf('.')));
+        String fileName = path1.concat(name.substring(name.lastIndexOf('.')));
 
         // FullPath
 

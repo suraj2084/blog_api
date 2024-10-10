@@ -14,7 +14,6 @@ import lombok.Setter;
 
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -40,10 +39,7 @@ public class Post {
     @JsonManagedReference
     private User user;
 
-    // @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch =
-    // FetchType.LAZY)
-    // // @JsonBackReference(value = "post-comments") // Specify a unique name //
-    // Use
-    // // // JsonManagedReference on the parent side
-    // private Set<Comment> comment = new HashSet<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference // Parent side of the relationship
+    private List<Comment> comments = new ArrayList<>();
 }

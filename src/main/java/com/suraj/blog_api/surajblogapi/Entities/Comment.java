@@ -2,7 +2,6 @@ package com.suraj.blog_api.surajblogapi.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
@@ -10,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -34,14 +34,14 @@ public class Comment {
 
     private String status;
 
-    // @ManyToOne(fetch = FetchType.EAGER)
-    // // @JsonManagedReference(value = "user-comments") // Use JsonBackReference on
-    // // the child side
-    // private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference // Child side of the relationship (User)
+    private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    // @JsonManagedReference(value = "post-comments") // Use JsonBackReference on
-    // the child side
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    @JsonBackReference // Child side of the relationship (Post)
     private Post post;
 
 }
