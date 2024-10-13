@@ -32,7 +32,7 @@ public class CommentController {
         return new ResponseEntity<>(commentResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("comments/")
+    @GetMapping(" ")
     public ResponseEntity<?> getAllComments() {
         List<CommentDto> allComment = commentService.getAllComments();
         if (allComment.isEmpty()) {

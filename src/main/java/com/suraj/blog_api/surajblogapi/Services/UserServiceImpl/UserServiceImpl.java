@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.suraj.blog_api.surajblogapi.Entities.User;
 import com.suraj.blog_api.surajblogapi.Exceptions.ResourceNotFoundException;
@@ -21,11 +22,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     ModelMapper modelMapper;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     @Override
     public ApiResponse createUser(UserDto userDto) {
 
         // User user = this.dtoToUser(userDto);
         User user = modelMapper.map(userDto, User.class);
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userRepo.save(user);
         return new ApiResponse("User Created successfully", true);
     }
