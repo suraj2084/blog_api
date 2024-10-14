@@ -17,8 +17,10 @@ import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.FileServiceImpl;
 import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.PostServiceImpl;
 import com.suraj.blog_api.surajblogapi.Services.UserServiceImpl.UserServiceImpl;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -96,7 +98,10 @@ public class AppConfig {
                  * request can be processed without needing to manage session state on the
                  * server.
                  */
-                .authorizeHttpRequests(request -> request.anyRequest().authenticated());
+                .authorizeHttpRequests(request -> request
+                        // Here we only permit login and register other One is authenticated
+                        .requestMatchers("/api/users/login", "/api/users/register").permitAll()
+                        .anyRequest().authenticated());
         return http.build(); // http build is use for build a SecurityFilterChain
     }
 
@@ -108,6 +113,14 @@ public class AppConfig {
         // deprecated not use in production
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         return provider;
+
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+
+        return authenticationConfiguration.getAuthenticationManager();
 
     }
 

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.suraj.blog_api.surajblogapi.Entities.User;
 import com.suraj.blog_api.surajblogapi.Payloads.ApiResponse;
 import com.suraj.blog_api.surajblogapi.Payloads.UserDto;
 import com.suraj.blog_api.surajblogapi.Services.UserService;
@@ -29,10 +31,17 @@ public class UserController {
     private UserService userService;
 
     // Post Create usser
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<ApiResponse> createUser(@Valid @RequestBody UserDto userDto) {
         ApiResponse apiResponse = userService.createUser(userDto);
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody UserDto user) {
+        System.out.println(user);
+        String verify = userService.verify(user);
+        return verify;
     }
 
     // PUT Update User
