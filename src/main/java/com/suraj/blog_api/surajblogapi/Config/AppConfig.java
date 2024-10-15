@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.suraj.blog_api.surajblogapi.Filter.JwtFilter;
 import com.suraj.blog_api.surajblogapi.Services.CategoryService;
 import com.suraj.blog_api.surajblogapi.Services.CommentService;
 import com.suraj.blog_api.surajblogapi.Services.FileService;
@@ -24,14 +25,18 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import static org.springframework.security.config.Customizer.*;
 
 @Configuration
 public class AppConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public UserService userService() {
@@ -98,10 +103,14 @@ public class AppConfig {
                  * request can be processed without needing to manage session state on the
                  * server.
                  */
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
                         // Here we only permit login and register other One is authenticated
                         .requestMatchers("/api/users/login", "/api/users/register").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated()
+
+                );
+
         return http.build(); // http build is use for build a SecurityFilterChain
     }
 
